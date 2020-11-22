@@ -1,10 +1,27 @@
 import { app, BrowserWindow, IpcMain } from 'electron';
 import { SlpLiveStream, SlpRealTime, getCharacterName, getCharacterColorName } from '@vinceau/slp-realtime';
+import { hasTeam, separateTeamAndName } from '@utils/names';
 import * as OBSWebSocket from 'obs-websocket-js';
 import * as path from 'path';
 import * as url from 'url';
 
 let mainWindow: Electron.BrowserWindow | null;
+
+// Websocket connection settings for Slippi
+const SLIPPIADDRESS = 'localhost';
+const SLIPPIPORT = 53742;
+
+// Websocket connection settings for OBS
+const OBSADDRESS = 'localhost';
+const OBSPORT = 4444;
+
+// Initialize Slippi relay instance
+const livestream = new SlpLiveStream();
+const realtime = new SlpRealTime();
+realtime.setStream(livestream);
+
+// Initialize OBS websocket instance
+const obs = new OBSWebSocket();
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -45,21 +62,6 @@ app.on('activate', () => {
   }
 });
 
-// Websocket connection settings for Slippi
-const SLIPPIADDRESS = 'localhost';
-const SLIPPIPORT = 53742;
-
-// Websocket connection settings for OBS
-const OBSADDRESS = 'localhost';
-const OBSPORT = 4444;
-
-// Initialize Slippi relay instance
-const livestream = new SlpLiveStream();
-const realtime = new SlpRealTime();
-realtime.setStream(livestream);
-
-// Initialize OBS websocket instance
-const obs = new OBSWebSocket();
 
 // Connect to the Slippi relay
 livestream.start(SLIPPIADDRESS, SLIPPIPORT)
