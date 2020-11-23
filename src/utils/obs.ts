@@ -44,15 +44,15 @@ export function updateBracketView(obs: OBSWebSocket, bracketSourceName: string, 
   if (!bracketLink) {
     obs.sendCallback('GetSourceSettings', { sourceName: bracketSourceName }, (err, data)=> {
       //TODO Get base url from current settings
+      updateWebSource(obs, bracketSourceName, {url: assembledUrl});
     });
   } else if (!settings) {
     obs.sendCallback('GetSourceSettings', { sourceName: bracketSourceName }, (err, data)=> {
       //TODO Get querystring from current settings
+      updateWebSource(obs, bracketSourceName, {url: assembledUrl});
     });
   } else {
     assembledUrl = bracketLink + '/module?' + stringify(settings);
+    updateWebSource(obs, bracketSourceName, {url: assembledUrl});
   }
-
-
-  updateWebSource(obs, bracketSourceName, {url: assembledUrl}); //TODO fix error
 }
