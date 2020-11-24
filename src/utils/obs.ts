@@ -1,5 +1,4 @@
 import * as OBSWebSocket from 'obs-websocket-js';
-import  * as qs from 'querystring';
 
 export function updateTextSource(obs: OBSWebSocket, sourceName: string, contents: string): void {
   obs.send('SetSourceSettings', {sourceName: sourceName, sourceSettings: {'text': contents}})
