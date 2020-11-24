@@ -77,13 +77,6 @@
     "type": "git",
     "url": "git+https://github.com/jakobkg/SmashStreamTool"
   },
-  "keywords": [
-    "boilerplate",
-    "Electron",
-    "React",
-    "Typescript",
-    "Webpack"
-  ],
   "bugs": {
     "url": "https://github.com/jakobkg/SmashStreamTool/issues"
   },
