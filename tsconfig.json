@@ -7,9 +7,9 @@
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
       "@main/*": ["src/main/*"],
-      "@models/*": ["src/models/*"],
       "@renderer*/": ["src/renderer/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/common/utils/*"],
+      "@components/*": ["src/common/components/*"]
     },
     "module": "commonjs",
     "moduleResolution": "node",
