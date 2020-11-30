@@ -1,9 +1,9 @@
 import * as React from "react";
-import RetryButton from '@components/RetryButton'
+import SettingsButton from '@components/SettingsButton'
 
 class MainView extends React.Component {
   render() {
-    return (<RetryButton />);
+    return (<SettingsButton />);
   }
 }
 

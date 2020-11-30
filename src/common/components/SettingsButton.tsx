@@ -1,18 +1,17 @@
 import * as React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import ReplayIcon from '@material-ui/icons/Replay';
+import SettingsIcon from '@material-ui/icons/Settings';
 import { ipcRenderer } from 'electron';
 
 
-export default function RetryButton() {
+export default function SettingsButton() {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    ipcRenderer.send('OBSRETRY');
   };
 
   return (
     <div>
       <IconButton onClick={handleClick}>
-        <ReplayIcon />
+        <SettingsIcon />
       </IconButton>
     </div>
   );
