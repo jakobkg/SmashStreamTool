@@ -18,11 +18,11 @@ class OBSConnectionHandler {
     this.OBS = new OBSWebSocket();
     this.connectionStatus = ConnectionStatus.CONNECTING;
 
-    this.OBS.connect();
+    this.connect();
   }
 
   connect(): void {
-    if (this.connectionStatus === ConnectionStatus.CLOSED) {
+    if (this.connectionStatus != ConnectionStatus.OPEN) {
       this.connectionStatus = ConnectionStatus.CONNECTING;
       this.OBS.connect({ address: this.fullAddress }, (connectionError) => {
         if (connectionError) {

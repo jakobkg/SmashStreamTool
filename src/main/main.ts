@@ -26,7 +26,8 @@ function createWindow(): void {
     height: 220,
     webPreferences: {
       webSecurity: false,
-      devTools: !(process.env.NODE_ENV === 'production')
+      devTools: !(process.env.NODE_ENV === 'production'),
+      nodeIntegration: true
     }
   });
 
@@ -60,6 +61,6 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('OBSRETRY', () => {
+ipcMain.on('OBSRETRY', (event) => {
   OBSConnection.connect();
 });

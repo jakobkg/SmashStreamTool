@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import ReplayIcon from '@material-ui/icons/Replay';
+import { ipcRenderer } from 'electron';
+
 
 export default function RetryButton() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    ipcRenderer.send('OBSRETRY');
   };
 
   return (
