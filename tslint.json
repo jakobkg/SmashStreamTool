@@ -24,9 +24,10 @@
         "@public",
         "@main",
         "@renderer",
+        "@common",
         "@utils",
         "@components",
-        "@common"
+        "@types"
       ]
     ],
     "no-import-side-effect": [

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@material-ui/core/Button';
-import SettingsIcon from '@material-ui/icons/Settings';
+import ReplayIcon from '@material-ui/icons/Replay';
 
 export default function SettingsButton() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -9,14 +9,10 @@ export default function SettingsButton() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <SettingsIcon />
+        <ReplayIcon />
       </Button>
     </div>
   );

@@ -1,16 +1,7 @@
 import * as OBSWebSocket from 'obs-websocket-js';
+import { StreamStatus } from '@common/types/StreamStatus';
+import { ConnectionStatus } from '@common/types/ConnectionStatus';
 
-enum ConnectionStatus {
-  CONNECTING,
-  OPEN,
-  CLOSING, 
-  CLOSED
-}
-
-enum StreamStatus {
-  OFFLINE,
-  ONLINE
-}
 
 class OBSConnectionHandler {
   address: string;
