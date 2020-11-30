@@ -25,7 +25,8 @@
         "@main",
         "@renderer",
         "@utils",
-        "@components"
+        "@components",
+        "@common"
       ]
     ],
     "no-import-side-effect": [

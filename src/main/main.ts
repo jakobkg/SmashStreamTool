@@ -1,6 +1,6 @@
 import { app, BrowserWindow, IpcMain } from 'electron';
 import { SlpLiveStream, SlpRealTime, getCharacterName, getCharacterColorName } from '@vinceau/slp-realtime';
-import * as OBSWebSocket from 'obs-websocket-js';
+import OBSConnectionHandler from '@common/handlers/OBSConnectionHandler';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -14,14 +14,12 @@ const SLIPPIPORT = 53742;
 const OBSADDRESS = 'localhost';
 const OBSPORT = 4444;
 
+const OBSConnection = new OBSConnectionHandler(OBSADDRESS, OBSPORT);
+
 // Initialize Slippi relay instance
 const livestream = new SlpLiveStream();
 const realtime = new SlpRealTime();
 realtime.setStream(livestream);
-
-// Initialize OBS websocket instance
-const obs = new OBSWebSocket();
-
 
 // Connect to the Slippi relay
 livestream.start(SLIPPIADDRESS, SLIPPIPORT)
@@ -32,20 +30,6 @@ livestream.start(SLIPPIADDRESS, SLIPPIPORT)
   }).catch(() => {
     return
   });
-
-// Connect to the OBS websocket
-obs.connect({ address: OBSADDRESS + ':' + OBSPORT })
-  .catch(() => {
-    if (process.env.NODE_ENV != 'production'){
-      console.log('Could not connect to OBS websocket');
-    }
-});
-
-obs.on('ConnectionOpened', () => {
-  if (process.env.NODE_ENV != 'production'){
-    console.log('Connected to OBS websocket');
-  }
-});
 
 // Set Electron window settings
 function createWindow(): void {
@@ -58,7 +42,7 @@ function createWindow(): void {
     }
   });
 
-  mainWindow.removeMenu();
+  //mainWindow.removeMenu();
 
   mainWindow.loadURL(
     url.format({

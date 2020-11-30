@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import '@public/style.css';
 import 'typeface-poppins';
-import App from '@components/App'
+import MainView from '@components/MainView'
 
 ReactDOM.render(
-    <App />,
+    <MainView />,
   document.getElementById('root')
 );
