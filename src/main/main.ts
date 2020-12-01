@@ -7,10 +7,12 @@ import * as url from 'url';
 let mainWindow: Electron.BrowserWindow | null;
 
 // Websocket connection settings for Slippi
+//TODO these should be part of application settings
 const SLIPPIADDRESS: string = 'localhost';
 const SLIPPIPORT: number = 53742;
 
 // Websocket connection settings for OBS
+//TODO these should be part of application settings
 const OBSADDRESS: string = 'localhost';
 const OBSPORT: number = 4444;
 
@@ -30,7 +32,9 @@ function createWindow(): void {
     }
   });
 
-  if (process.env.NODE_ENV !== 'development') mainWindow.removeMenu();
+  if (process.env.NODE_ENV !== 'development') {
+    mainWindow.removeMenu();
+  }
 
   mainWindow.loadURL(
     url.format({

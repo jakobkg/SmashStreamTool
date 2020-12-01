@@ -1,12 +1,14 @@
 import { ConnectionStatus } from '@common/types/ConnectionStatus';
+import { ObsSceneList } from '@common/types/ObsSceneList';
 import { StreamStatus } from '@common/types/StreamStatus';
 import * as OBSWebSocket from 'obs-websocket-js';
 
 export class OBSConnectionHandler {
+  public OBS: OBSWebSocket;
+
   private address: string;
   private port: number;
   private fullAddress: string;
-  public OBS: OBSWebSocket;
   private connectionStatus: ConnectionStatus;
   private streamStatus: StreamStatus;
 
@@ -62,10 +64,10 @@ export class OBSConnectionHandler {
    * A scene is considered "swappable" if it has "{xyz} swap" as its name and a scene named "{xyz}" exists, or vice versa
    */
   public swapCams(): void {
-    this.OBS.sendCallback('GetSceneList', (errorResponse, sceneListResponse) => {
+    this.OBS.sendCallback('GetSceneList', (errorResponse: Error | OBSWebSocket.ObsError | undefined, sceneListResponse: ObsSceneList | undefined) => {
       if (sceneListResponse !== undefined) {
-        let currentSceneName: string = sceneListResponse['current-scene'];
-        sceneListResponse['scenes'].forEach((scene) => {
+        const currentSceneName: string = sceneListResponse['current-scene'];
+        sceneListResponse.scenes.forEach((scene: OBSWebSocket.Scene) => {
           if ((currentSceneName === `${scene.name} swap`) || (`${currentSceneName} swap` === scene.name)) {
             this.OBS.send('SetCurrentScene', {'scene-name': scene.name});
           }
