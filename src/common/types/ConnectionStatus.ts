@@ -1,6 +1,6 @@
 export enum ConnectionStatus {
   CONNECTING,
   OPEN,
-  CLOSING, 
+  CLOSING,
   CLOSED
-};
+}

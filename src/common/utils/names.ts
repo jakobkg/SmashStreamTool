@@ -6,5 +6,6 @@ export function separateTeamAndName(playerName: string): string[] {
   if (!hasTeam(playerName)) {
     return [ '', playerName ];
   }
+
   return playerName.split(' | ');
 }

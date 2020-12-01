@@ -1,10 +1,8 @@
-import * as React from "react";
-import RetryButton from '@components/RetryButton'
+import { RetryButton } from '@components/RetryButton';
+import * as React from 'react';
 
-class MainView extends React.Component {
-  render() {
+export class MainView extends React.Component {
+  public render(): JSX.Element {
     return (<RetryButton />);
   }
 }
-
-export default MainView;

@@ -1,29 +1,21 @@
 import * as OBSWebSocket from 'obs-websocket-js';
 
-export function updateTextSource(obs: OBSWebSocket, sourceName: string, contents: string): void {
-  obs.send('SetSourceSettings', {sourceName: sourceName, sourceSettings: {'text': contents}})
+export async function updateTextSource(obs: OBSWebSocket, sourceName: string, contents: string): Promise<boolean> {
+  return obs.send('SetSourceSettings', { sourceName: sourceName, sourceSettings: { text: contents } })
   .then(() => {
-    if (process.env.NODE_ENV != 'production'){
-      console.log('Updated text source ' + sourceName);
-    }
+    return true;
   })
   .catch(() => {
-    if (process.env.NODE_ENV != 'production'){
-      console.log('Failed to update text source ' + sourceName);
-    }
+    return false;
   });
 }
 
-export function updateWebSource(obs: OBSWebSocket, sourceName: string, sourceSettings: { width?: number, height?: number, url?: string, css?: string }): void {
-  obs.send('SetSourceSettings', {sourceName: sourceName, sourceSettings: sourceSettings})
+export async function updateWebSource(obs: OBSWebSocket, sourceName: string, sourceSettings: { width?: number; height?: number; url?: string; css?: string }): Promise<boolean> {
+  return obs.send('SetSourceSettings', {sourceName: sourceName, sourceSettings: sourceSettings})
   .then(() => {
-    if (process.env.NODE_ENV != 'production'){
-      console.log('Updated web source ' + sourceName);
-    }
+    return true;
   })
   .catch(() => {
-    if (process.env.NODE_ENV != 'production'){
-      console.log('Failed to update web source ' + sourceName);
-    }
+    return false;
   });
 }

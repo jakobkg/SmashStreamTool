@@ -1,4 +1,4 @@
-export interface GuiDataInterface {
+export type GuiData = {
   p1FullName: string;
   p1Score: number;
 
@@ -8,4 +8,4 @@ export interface GuiDataInterface {
   round: string;
   tournamentName: string;
   bestOf: number;
-}
+};

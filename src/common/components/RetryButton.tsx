@@ -1,17 +1,26 @@
-import * as React from 'react';
 import { ipcRenderer } from 'electron';
+import * as React from 'react';
 
+type RetryButtonProps = {};
+type RetryButtonState = {};
 
-export default function RetryButton() {
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    ipcRenderer.send('OBSRETRY');
-  };
+export class RetryButton extends React.Component {
+  constructor(props: RetryButtonProps) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-  return (
+  public render(): JSX.Element {
+    return (
     <div>
-      <button onClick={handleClick}>
+      <button onClick={this.handleClick}>
         Retry OBS connection
       </button>
     </div>
-  );
+    );
+  }
+
+  private handleClick(event: React.MouseEvent<HTMLButtonElement>): void {
+    ipcRenderer.send('OBSRETRY');
+  }
 }

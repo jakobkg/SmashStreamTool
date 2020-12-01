@@ -1,4 +1,4 @@
-export interface OverlayData {
+export type OverlayData = {
   p1Name: string;
   p1Team: string;
 
@@ -31,4 +31,4 @@ export interface OverlayData {
   caster2Twitter: string;
   caster2Twitch: string;
   allowIntro: boolean;
-}
+};

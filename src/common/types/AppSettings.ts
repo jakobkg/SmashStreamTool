@@ -1,4 +1,4 @@
-export interface AppSettings {
+export type AppSettings = {
   slippiAddress?: string;
   slippiPort?: number;
 
@@ -15,7 +15,7 @@ export interface AppSettings {
     p1TeamSource?: string;
     p1ScoreSource?: string;
     p1WLSource?: string;
-    
+
     p2NameSource?: string;
     p2TeamSource?: string;
     p2ScoreSource?: string;
@@ -24,12 +24,12 @@ export interface AppSettings {
     tournamentNameSource?: string;
     tournamentRoundSource?: string;
     tournamentBracketSource?: string;
-  }
+  };
 
   obsScenes?: {
     gameplayScene?: string;
     menuScene?: string;
     bracketScene?: string;
     castersScene?: string;
-  }
-}
+  };
+};

@@ -1,23 +1,23 @@
-import { app, BrowserWindow, ipcMain, IpcMain } from 'electron';
-import { SlpLiveStream, SlpRealTime, getCharacterName, getCharacterColorName } from '@vinceau/slp-realtime';
-import OBSConnectionHandler from '@common/handlers/OBSConnectionHandler';
-import SlippiConnectionHandler from '@common/handlers/SlippiConnectionHandler';
+import { OBSConnectionHandler } from '@common/handlers/OBSConnectionHandler';
+import { SlippiConnectionHandler } from '@common/handlers/SlippiConnectionHandler';
+import { getCharacterColorName, getCharacterName, SlpLiveStream, SlpRealTime } from '@vinceau/slp-realtime';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
 let mainWindow: Electron.BrowserWindow | null;
 
 // Websocket connection settings for Slippi
-const SLIPPIADDRESS = 'localhost';
-const SLIPPIPORT = 53742;
+const SLIPPIADDRESS: string = 'localhost';
+const SLIPPIPORT: number = 53742;
 
 // Websocket connection settings for OBS
-const OBSADDRESS = 'localhost';
-const OBSPORT = 4444;
+const OBSADDRESS: string = 'localhost';
+const OBSPORT: number = 4444;
 
-const OBSConnection = new OBSConnectionHandler(OBSADDRESS, OBSPORT);
+const obsConnection: OBSConnectionHandler = new OBSConnectionHandler(OBSADDRESS, OBSPORT);
 
-const SlippiConnection = new SlippiConnectionHandler(SLIPPIADDRESS, SLIPPIPORT);
+const slippiConnection: SlippiConnectionHandler = new SlippiConnectionHandler(SLIPPIADDRESS, SLIPPIPORT);
 
 // Set Electron window settings
 function createWindow(): void {
@@ -26,7 +26,7 @@ function createWindow(): void {
     height: 220,
     webPreferences: {
       webSecurity: false,
-      devTools: !(process.env.NODE_ENV === 'production'),
+      devTools: process.env.NODE_ENV !== 'production',
       nodeIntegration: true
     }
   });
@@ -61,6 +61,6 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('OBSRETRY', (event) => {
-  OBSConnection.connect();
+ipcMain.on('OBSRETRY', (event: Electron.IpcMainEvent) => {
+  obsConnection.connect();
 });
