@@ -1,6 +1,4 @@
 import * as React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import ReplayIcon from '@material-ui/icons/Replay';
 import { ipcRenderer } from 'electron';
 
 
@@ -11,9 +9,9 @@ export default function RetryButton() {
 
   return (
     <div>
-      <IconButton onClick={handleClick}>
-        <ReplayIcon />
-      </IconButton>
+      <button onClick={handleClick}>
+        Retry OBS connection
+      </button>
     </div>
   );
 }
