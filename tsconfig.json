@@ -10,8 +10,7 @@
       "@renderer*/": ["src/renderer/*"],
       "@common/*": ["src/common/*"],
       "@utils/*": ["src/common/utils/*"],
-      "@components/*": ["src/common/components/*"],
-      "@types/*": ["src/common/types/*"]
+      "@components/*": ["src/common/components/*"]
     },
     "module": "commonjs",
     "moduleResolution": "node",
