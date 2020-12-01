@@ -1,6 +1,5 @@
 import { OBSConnectionHandler } from '@common/handlers/OBSConnectionHandler';
 import { SlippiConnectionHandler } from '@common/handlers/SlippiConnectionHandler';
-import { getCharacterColorName, getCharacterName, SlpLiveStream, SlpRealTime } from '@vinceau/slp-realtime';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
@@ -31,7 +30,7 @@ function createWindow(): void {
     }
   });
 
-  //mainWindow.removeMenu();
+  if (process.env.NODE_ENV !== 'development') mainWindow.removeMenu();
 
   mainWindow.loadURL(
     url.format({
@@ -61,6 +60,10 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.on('OBSRETRY', (event: Electron.IpcMainEvent) => {
+ipcMain.on('OBS_SWAPCAMS', (event: Electron.IpcMainEvent) => {
+  obsConnection.swapCams();
+});
+
+ipcMain.on('OBS_RETRY', (event: Electron.IpcMainEvent) => {
   obsConnection.connect();
 });

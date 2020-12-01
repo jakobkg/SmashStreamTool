@@ -1,11 +1,10 @@
 import { ipcRenderer } from 'electron';
 import * as React from 'react';
 
-type RetryButtonProps = {};
-type RetryButtonState = {};
+type CamSwapButtonProps = {};
 
-export class RetryButton extends React.Component {
-  constructor(props: RetryButtonProps) {
+export class CamSwapButton extends React.Component {
+  constructor(props: CamSwapButtonProps) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -14,13 +13,13 @@ export class RetryButton extends React.Component {
     return (
     <div>
       <button onClick={this.handleClick}>
-        Retry OBS connection
+        Swap cams
       </button>
     </div>
     );
   }
 
   private handleClick(event: React.MouseEvent<HTMLButtonElement>): void {
-    ipcRenderer.send('OBS_RETRY');
+    ipcRenderer.send('OBS_SWAPCAMS');
   }
 }
