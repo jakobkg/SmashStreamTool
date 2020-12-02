@@ -8,26 +8,35 @@ export class OBSConnectionHandler {
 
   private address: string;
   private port: number;
-  private fullAddress: string;
+  private swapSuffix: string;
+  private swapped: boolean;
+
   private connectionStatus: ConnectionStatus;
   private streamStatus: StreamStatus;
 
-  constructor(address: string, port: number) {
+  constructor(address: string, port: number, swapSuffix?: string) {
     this.address = address;
     this.port = port;
-    this.fullAddress = `${address}:${port.toString()}`;
+
+    if (swapSuffix !== undefined) {
+      this.swapSuffix = swapSuffix; 
+    } else {
+      this.swapSuffix = 'swap';
+    }
+
     this.OBS = new OBSWebSocket();
     this.connectionStatus = ConnectionStatus.CONNECTING;
 
     this.connect();
   }
+
   /**
    * Try to connect to an OBS websocket using the settings provided
    */
   public connect(): void {
     if (this.connectionStatus !== ConnectionStatus.OPEN) {
       this.connectionStatus = ConnectionStatus.CONNECTING;
-      this.OBS.connect({ address: this.fullAddress }, (connectionError: Error | undefined) => {
+      this.OBS.connect({ address: `${this.address}:${this.port.toString()}` }, (connectionError: Error | undefined) => {
         if (connectionError !== undefined) {
           //TODO Notify user of connection failure
           this.connectionStatus = ConnectionStatus.CLOSED;
@@ -68,12 +77,34 @@ export class OBSConnectionHandler {
       if (sceneListResponse !== undefined) {
         const currentSceneName: string = sceneListResponse['current-scene'];
         sceneListResponse.scenes.forEach((scene: OBSWebSocket.Scene) => {
-          if ((currentSceneName === `${scene.name} swap`) || (`${currentSceneName} swap` === scene.name)) {
+          if ((currentSceneName === `${scene.name} ${this.swapSuffix}`) || (`${currentSceneName} ${this.swapSuffix}` === scene.name)) {
             this.OBS.send('SetCurrentScene', {'scene-name': scene.name});
           }
         });
       }
     });
+  }
+
+  /**
+   * setScene
+   */
+  public changeScene(sceneName: string): void {
+    this.OBS.send('GetSceneList')
+    .then((sceneListResponse) => {
+      const currentSceneName: string = sceneListResponse["current-scene"];
+
+      let allSceneNames: string[] = [];
+
+      sceneListResponse.scenes.forEach((scene: OBSWebSocket.Scene) => {
+        allSceneNames = [...allSceneNames, scene.name];
+      })
+      /*
+      Okay three cases to handle (I think)
+      1) If we've swapped cams and a swapped version of the scene we're changing to exists, use that one
+      2) if we've swapped cams and a swapped verion of the view we're changing to does not exist, use the non-swapped version
+      3) if we haven't swapped cams, just change to the given scene
+      */
+    })
   }
 
   /**

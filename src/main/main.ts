@@ -18,7 +18,7 @@ const OBSPORT: number = 4444;
 
 const obsConnection: OBSConnectionHandler = new OBSConnectionHandler(OBSADDRESS, OBSPORT);
 
-const slippiConnection: SlippiConnectionHandler = new SlippiConnectionHandler(SLIPPIADDRESS, SLIPPIPORT);
+// const slippiConnection: SlippiConnectionHandler = new SlippiConnectionHandler(SLIPPIADDRESS, SLIPPIPORT);
 
 // Set Electron window settings
 function createWindow(): void {
@@ -71,3 +71,7 @@ ipcMain.on('OBS_SWAPCAMS', (event: Electron.IpcMainEvent) => {
 ipcMain.on('OBS_RETRY', (event: Electron.IpcMainEvent) => {
   obsConnection.connect();
 });
+
+ipcMain.on('OBS_SCENE', (event: Electron.IpcMainEvent, sceneName: string) => {
+  obsConnection.OBS.send('SetCurrentScene', {'scene-name': sceneName});
+})
