@@ -1,6 +1,4 @@
-import { ConnectionStatus } from '@common/types/ConnectionStatus';
-import { ObsSceneList } from '@common/types/ObsSceneList';
-import { StreamStatus } from '@common/types/StreamStatus';
+import { ConnectionStatus, ObsSceneListResponse, ObsSceneResponse, StreamStatus } from '@common/types';
 import * as OBSWebSocket from 'obs-websocket-js';
 
 export class OBSConnectionHandler {
@@ -17,9 +15,10 @@ export class OBSConnectionHandler {
   constructor(address: string, port: number, swapSuffix?: string) {
     this.address = address;
     this.port = port;
+    this.swapped = false;
 
     if (swapSuffix !== undefined) {
-      this.swapSuffix = swapSuffix; 
+      this.swapSuffix = swapSuffix;
     } else {
       this.swapSuffix = 'swap';
     }
@@ -73,38 +72,35 @@ export class OBSConnectionHandler {
    * A scene is considered "swappable" if it has "{xyz} swap" as its name and a scene named "{xyz}" exists, or vice versa
    */
   public swapCams(): void {
-    this.OBS.sendCallback('GetSceneList', (errorResponse: Error | OBSWebSocket.ObsError | undefined, sceneListResponse: ObsSceneList | undefined) => {
-      if (sceneListResponse !== undefined) {
-        const currentSceneName: string = sceneListResponse['current-scene'];
-        sceneListResponse.scenes.forEach((scene: OBSWebSocket.Scene) => {
-          if ((currentSceneName === `${scene.name} ${this.swapSuffix}`) || (`${currentSceneName} ${this.swapSuffix}` === scene.name)) {
-            this.OBS.send('SetCurrentScene', {'scene-name': scene.name});
-          }
-        });
-      }
+    this.swapped = !this.swapped;
+    this.OBS.send('GetCurrentScene')
+    .then((currentScene: ObsSceneResponse) => {
+      this.changeScene(currentScene.name);
     });
   }
 
   /**
-   * setScene
+   * changeScene
    */
   public changeScene(sceneName: string): void {
+    const swappedSceneName: string = `${sceneName} ${this.swapSuffix}`;
+    const unswappedSceneName: string = sceneName.replace(` ${this.swapSuffix}`, '');
+
     this.OBS.send('GetSceneList')
-    .then((sceneListResponse) => {
-      const currentSceneName: string = sceneListResponse["current-scene"];
-
+    .then((sceneListResponse: ObsSceneListResponse) => {
       let allSceneNames: string[] = [];
-
       sceneListResponse.scenes.forEach((scene: OBSWebSocket.Scene) => {
         allSceneNames = [...allSceneNames, scene.name];
-      })
-      /*
-      Okay three cases to handle (I think)
-      1) If we've swapped cams and a swapped version of the scene we're changing to exists, use that one
-      2) if we've swapped cams and a swapped verion of the view we're changing to does not exist, use the non-swapped version
-      3) if we haven't swapped cams, just change to the given scene
-      */
-    })
+      });
+
+      if (this.swapped && allSceneNames.includes(swappedSceneName)) {
+        this.OBS.send('SetCurrentScene', {'scene-name': swappedSceneName});
+      } else if (!this.swapped && allSceneNames.includes(unswappedSceneName)) {
+        this.OBS.send('SetCurrentScene', {'scene-name': unswappedSceneName});
+      } else if (sceneName !== sceneListResponse['current-scene']) {
+        this.OBS.send('SetCurrentScene', {'scene-name': sceneName});
+      }
+    });
   }
 
   /**

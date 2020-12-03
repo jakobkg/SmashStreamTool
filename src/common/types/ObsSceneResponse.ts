@@ -1,8 +1,8 @@
 import * as OBSWebSocket from 'obs-websocket-js';
 
-export type ObsSceneList = {
+export type ObsSceneResponse = {
   messageId: string;
   status: 'ok';
-  'current-scene': string;
-  scenes: OBSWebSocket.Scene[];
+  name: string;
+  sources: OBSWebSocket.SceneItem[];
 };

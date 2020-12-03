@@ -1,6 +1,4 @@
-import { CamSwapButton } from '@components/CamSwapButton';
-import { RetryButton } from '@components/RetryButton';
-import { SceneButton } from "@components/SceneButton";
+import { CamSwapButton, RetryButton, SceneButton } from '@common/components';
 import * as React from 'react';
 
 export class MainView extends React.Component {
@@ -10,7 +8,7 @@ export class MainView extends React.Component {
       <CamSwapButton />
       <RetryButton />
       <SceneButton sceneName='Scene 1' />
-      <SceneButton sceneName='Scene 2' />
+      <SceneButton sceneName='cams' />
     </div>);
   }
 }

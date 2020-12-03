@@ -1,4 +1,4 @@
-import { MainView } from '@components/MainView';
+import { MainView } from '@common/components';
 import '@public/style.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

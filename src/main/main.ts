@@ -73,5 +73,5 @@ ipcMain.on('OBS_RETRY', (event: Electron.IpcMainEvent) => {
 });
 
 ipcMain.on('OBS_SCENE', (event: Electron.IpcMainEvent, sceneName: string) => {
-  obsConnection.OBS.send('SetCurrentScene', {'scene-name': sceneName});
-})
+  obsConnection.changeScene(sceneName);
+});
