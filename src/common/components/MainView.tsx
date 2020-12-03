@@ -1,3 +1,7 @@
+/**
+ * MainView.tsx
+ * Exports the main React component that gets imported and rendered by renderer.tsx
+ */
 import { CamSwapButton, RetryButton, SceneButton } from '@common/components';
 import * as React from 'react';
 

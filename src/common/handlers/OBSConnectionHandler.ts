@@ -82,7 +82,7 @@ export class OBSConnectionHandler {
   /**
    * changeScene
    */
-  public changeScene(sceneName: string): void {
+  public async changeScene(sceneName: string): Promise<void> {
     const swappedSceneName: string = `${sceneName} ${this.swapSuffix}`;
     const unswappedSceneName: string = sceneName.replace(` ${this.swapSuffix}`, '');
 
@@ -101,6 +101,14 @@ export class OBSConnectionHandler {
         this.OBS.send('SetCurrentScene', {'scene-name': sceneName});
       }
     });
+  }
+
+  public async updateWebSource(sourceName: string, sourceSettings: { width?: number; height?: number; url?: string; css?: string }): Promise<void> {
+    this.OBS.send('SetSourceSettings', {sourceName: sourceName, sourceSettings: sourceSettings});
+  }
+
+  public async updateTextSource(obs: OBSWebSocket, sourceName: string, contents: string): Promise<void> {
+    obs.send('SetSourceSettings', { sourceName: sourceName, sourceSettings: { text: contents } });
   }
 
   /**
