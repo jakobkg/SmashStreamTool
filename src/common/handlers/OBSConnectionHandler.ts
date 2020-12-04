@@ -38,9 +38,8 @@ export class OBSConnectionHandler {
       return;
     })
     .catch(() => {
-      throw new Error("Could not connect to OBS websocket");
-      
-    })
+      throw new Error('Failed to connect to OBS websocket');
+    });
   }
 
   /**
@@ -51,7 +50,7 @@ export class OBSConnectionHandler {
   public async connect(): Promise<boolean> {
     if (this.connectionStatus !== ConnectionStatus.OPEN) {
       this.connectionStatus = ConnectionStatus.CONNECTING;
-      
+
       return this.OBS.connect({ address: `${this.address}:${this.port.toString()}` })
       .then(() => {
         this.connectionStatus = ConnectionStatus.OPEN;
