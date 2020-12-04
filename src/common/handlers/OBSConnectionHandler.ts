@@ -39,15 +39,12 @@ export class OBSConnectionHandler {
   /**
    * connect()
    * Try to connect to an OBS websocket using the settings provided to the constructor
+   * Returns true if connection was opened, false if connection failed to open
    */
-  public connect(): void {
+  public async connect(): Promise<boolean> {
     if (this.connectionStatus !== ConnectionStatus.OPEN) {
       this.connectionStatus = ConnectionStatus.CONNECTING;
-      this.OBS.connect({ address: `${this.address}:${this.port.toString()}` }, (connectionError: Error | undefined) => {
-        if (connectionError !== undefined) {
-          this.connectionStatus = ConnectionStatus.CLOSED;
-        }
-      })
+      return this.OBS.connect({ address: `${this.address}:${this.port.toString()}` })
       .then(() => {
         this.connectionStatus = ConnectionStatus.OPEN;
 
@@ -63,9 +60,15 @@ export class OBSConnectionHandler {
         this.OBS.on('StreamStopped', () => {
           this.streamStatus = StreamStatus.OFFLINE;
         });
+
+        return true;
       }, () => {
         this.connectionStatus = ConnectionStatus.CLOSED;
+
+        return false;
       });
+    } else {
+      return true;
     }
   }
 
