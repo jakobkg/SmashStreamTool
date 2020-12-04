@@ -195,7 +195,7 @@ export class OBSConnectionHandler {
   public async updateTextSource(sourceName: string, contents: string): Promise<boolean> {
     return this.OBS.send('SetSourceSettings', { sourceName: sourceName, sourceSettings: { text: contents } })
     .then(() => {
-      return true ;
+      return true;
     }, () => {
       return false;
     });
