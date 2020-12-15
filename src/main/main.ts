@@ -1,5 +1,4 @@
 import { OBSConnectionHandler } from '@common/handlers/OBSConnectionHandler';
-import { SlippiConnectionHandler } from '@common/handlers/SlippiConnectionHandler';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
@@ -16,7 +15,7 @@ const SLIPPIPORT: number = 53742;
 const OBSADDRESS: string = 'localhost';
 const OBSPORT: number = 4444;
 
-const obsConnection: OBSConnectionHandler = new OBSConnectionHandler(OBSADDRESS, OBSPORT);
+const OBS: OBSConnectionHandler = new OBSConnectionHandler(OBSADDRESS, OBSPORT);
 
 // const slippiConnection: SlippiConnectionHandler = new SlippiConnectionHandler(SLIPPIADDRESS, SLIPPIPORT);
 
@@ -65,13 +64,13 @@ app.on('activate', () => {
 });
 
 ipcMain.on('OBS_SWAPCAMS', (event: Electron.IpcMainEvent) => {
-  obsConnection.swapCams();
+  OBS.swapCams();
 });
 
 ipcMain.on('OBS_RETRY', (event: Electron.IpcMainEvent) => {
-  obsConnection.connect();
+  OBS.connect();
 });
 
 ipcMain.on('OBS_SCENE', (event: Electron.IpcMainEvent, sceneName: string) => {
-  obsConnection.changeScene(sceneName);
+  OBS.changeScene(sceneName);
 });
