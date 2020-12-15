@@ -13,7 +13,8 @@
         "ignore-case": true
       }
     ],
-    "max-line-length": [true, 80],
+    "max-line-length": [false],
+    "linebreak-style": [true, "CRLF"],
     "no-any": false,
     "no-submodule-imports": false,
     "no-implicit-dependencies": [
@@ -23,9 +24,10 @@
         "@",
         "@public",
         "@main",
-        "@models",
         "@renderer",
-        "@utils"
+        "@common",
+        "@utils",
+        "@components"
       ]
     ],
     "no-import-side-effect": [

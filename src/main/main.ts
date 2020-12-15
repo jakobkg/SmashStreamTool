@@ -1,22 +1,39 @@
-import { app, BrowserWindow, IpcMain } from 'electron';
-import { SlpLiveStream, SlpRealTime, getCharacterName, getCharacterColorName } from '@vinceau/slp-realtime';
-import * as OBSWebSocket from 'obs-websocket-js';
+import { OBSConnectionHandler } from '@common/handlers/OBSConnectionHandler';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
 let mainWindow: Electron.BrowserWindow | null;
 
+// Websocket connection settings for Slippi
+//TODO these should be part of application settings
+const SLIPPIADDRESS: string = 'localhost';
+const SLIPPIPORT: number = 53742;
+
+// Websocket connection settings for OBS
+//TODO these should be part of application settings
+const OBSADDRESS: string = 'localhost';
+const OBSPORT: number = 4444;
+
+const OBS: OBSConnectionHandler = new OBSConnectionHandler(OBSADDRESS, OBSPORT);
+
+// const slippiConnection: SlippiConnectionHandler = new SlippiConnectionHandler(SLIPPIADDRESS, SLIPPIPORT);
+
+// Set Electron window settings
 function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 220,
     webPreferences: {
       webSecurity: false,
-      devTools: process.env.NODE_ENV === 'production' ? false : true
+      devTools: process.env.NODE_ENV !== 'production',
+      nodeIntegration: true
     }
   });
 
-  mainWindow.removeMenu();
+  if (process.env.NODE_ENV !== 'development') {
+    mainWindow.removeMenu();
+  }
 
   mainWindow.loadURL(
     url.format({
@@ -31,6 +48,7 @@ function createWindow(): void {
   });
 }
 
+// Electron listeners
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
@@ -45,36 +63,14 @@ app.on('activate', () => {
   }
 });
 
-// Websocket connection settings for Slippi
-const SLIPPIADDRESS = 'localhost';
-const SLIPPIPORT = 53742;
-
-// Websocket connection settings for OBS
-const OBSADDRESS = 'localhost';
-const OBSPORT = 4444;
-
-// Initialize Slippi relay instance
-const livestream = new SlpLiveStream();
-const realtime = new SlpRealTime();
-realtime.setStream(livestream);
-
-// Initialize OBS websocket instance
-const obs = new OBSWebSocket();
-
-// Connect to the Slippi relay
-livestream.start(SLIPPIADDRESS, SLIPPIPORT)
-  .then(() => {
-    console.log('Connecting to Slippi Relay');
-  }).catch(() => {
-    return
-  });
-
-// Connect to the OBS websocket
-obs.connect({ address: OBSADDRESS + ':' + OBSPORT })
-  .catch(() => {
-    console.log('Could not connect to OBS Websocket :(');
+ipcMain.on('OBS_SWAPCAMS', (event: Electron.IpcMainEvent) => {
+  OBS.swapCams();
 });
 
-obs.on('ConnectionOpened', () => {
-  console.log('Connected to OBS websocket :)');
+ipcMain.on('OBS_RETRY', (event: Electron.IpcMainEvent) => {
+  OBS.connect();
+});
+
+ipcMain.on('OBS_SCENE', (event: Electron.IpcMainEvent, sceneName: string) => {
+  OBS.changeScene(sceneName);
 });

@@ -18,3 +18,24 @@ Streamlines workflow by automating most of the Melee stream using Slippi, and up
 Requires [Project Slippi](https://slippi.gg) set up for console mirroring for Melee automation
 
 Requires [obs-websocket](https://github.com/Palakis/obs-websocket) to be installed for OBS scene switching and scoreboard control
+
+## Get started with the WIP version
+Clone this repo somewhere
+
+`git clone --recurse-submodules -j4 https://github.com/jakobkg/SmashStreamTool.git && cd SmashStreamTool`
+
+optional: Checkout the `dev` branch
+
+`git checkout dev`
+
+Install depenencies
+
+`npm install`
+
+Run webpack
+
+`npm run dev`
+
+Launch the app
+
+`npm start`
