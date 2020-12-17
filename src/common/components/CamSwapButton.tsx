@@ -11,11 +11,9 @@ export class CamSwapButton extends React.Component {
 
   public render(): JSX.Element {
     return (
-    <div>
       <button onClick={this.handleClick}>
         Swap cams
       </button>
-    </div>
     );
   }
 

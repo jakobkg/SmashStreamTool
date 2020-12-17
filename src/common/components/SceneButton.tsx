@@ -11,11 +11,9 @@ export class SceneButton extends React.Component<SceneButtonProps> {
 
   public render(): JSX.Element {
     return (
-    <div>
       <button onClick={this.handleClick}>
         {this.props.sceneName}
       </button>
-    </div>
     );
   }
 

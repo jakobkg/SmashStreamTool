@@ -17,7 +17,7 @@ const OBSPORT: number = 4444;
 
 const OBS: OBSConnectionHandler = new OBSConnectionHandler(OBSADDRESS, OBSPORT);
 
-// const slippiConnection: SlippiConnectionHandler = new SlippiConnectionHandler(SLIPPIADDRESS, SLIPPIPORT);
+// const slippi: SlippiConnectionHandler = new SlippiConnectionHandler(SLIPPIADDRESS, SLIPPIPORT);
 
 // Set Electron window settings
 function createWindow(): void {

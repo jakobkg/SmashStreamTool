@@ -12,11 +12,9 @@ export class RetryButton extends React.Component {
 
   public render(): JSX.Element {
     return (
-    <div>
       <button onClick={this.handleClick}>
         Retry OBS connection
       </button>
-    </div>
     );
   }
 
